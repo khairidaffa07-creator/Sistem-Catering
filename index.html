@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIA Pendapatan Usaha Katering</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<!-- ============ HALAMAN LOGIN ============ -->
+<div class="auth-screen" id="authScreen">
+
+    <section class="auth-hero">
+        <div class="auth-brand">
+            <div class="brand-logo">DT</div>
+            <div>
+                <div class="brand-name" id="authNamaUsaha">Katering</div>
+                <div class="brand-sub">Sistem Informasi Akuntansi Pendapatan</div>
+            </div>
+        </div>
+
+        <div class="auth-hero-body">
+            <img src="assets/ilustrasi-katering.svg" alt="" class="auth-hero-img">
+            <h1>Pesanan, pengiriman, dan pendapatan katering dalam satu sistem.</h1>
+            <ul class="auth-features">
+                <li>
+                    <span class="feat-icon">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                    </span>
+                    <span><b>Pencatatan pesanan</b> lengkap dengan paket, porsi, uang muka, dan pelunasan.</span>
+                </li>
+                <li>
+                    <span class="feat-icon">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                    </span>
+                    <span><b>Monitoring pengiriman</b> real-time dari dapur sampai diterima pelanggan.</span>
+                </li>
+                <li>
+                    <span class="feat-icon">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
+                    </span>
+                    <span><b>Laporan pendapatan</b> dengan pengakuan pendapatan, piutang, dan pendapatan diterima di muka.</span>
+                </li>
+                <li>
+                    <span class="feat-icon">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </span>
+                    <span><b>Akses per peran</b> untuk pemilik, admin, dan kurir sesuai prinsip pemisahan tugas.</span>
+                </li>
+            </ul>
+        </div>
+
+        <p class="auth-hero-foot">Data tersimpan aman di Supabase PostgreSQL dengan Row Level Security.</p>
+    </section>
+
+    <section class="auth-panel">
+        <div class="auth-card">
+
+            <div class="auth-alert hidden" id="authAlert" role="alert"></div>
+
+            <!-- Masuk -->
+            <form class="auth-view" data-view="masuk" id="formMasuk" novalidate>
+                <h2>Selamat datang kembali</h2>
+                <p class="muted">Masuk dengan akun yang telah didaftarkan.</p>
+
+                <label>Email
+                    <input type="email" id="masukEmail" autocomplete="username" placeholder="nama@email.com" required>
+                </label>
+
+                <label>Kata sandi
+                    <span class="pw-wrap">
+                        <input type="password" id="masukSandi" autocomplete="current-password" placeholder="Masukkan kata sandi" required>
+                        <button type="button" class="pw-toggle" data-toggle-pw="masukSandi" aria-label="Tampilkan kata sandi">Lihat</button>
+                    </span>
+                    <small class="caps hidden" id="capsMasuk">Caps Lock aktif</small>
+                </label>
+
+                <div class="auth-row">
+                    <label class="check"><input type="checkbox" id="masukIngat" checked> Ingat saya</label>
+                    <a href="#" class="link" data-auth-view="lupa">Lupa kata sandi?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block" id="btnMasuk">Masuk</button>
+
+                <p class="auth-switch">Belum punya akun? <a href="#" class="link" data-auth-view="daftar">Daftar di sini</a></p>
+            </form>
+
+            <!-- Daftar -->
+            <form class="auth-view hidden" data-view="daftar" id="formDaftar" novalidate>
+                <h2>Buat akun</h2>
+                <p class="muted">Akun baru dapat digunakan setelah disetujui pemilik usaha.</p>
+
+                <label>Nama lengkap
+                    <input type="text" id="daftarNama" autocomplete="name" maxlength="100" required>
+                </label>
+                <label>Email
+                    <input type="email" id="daftarEmail" autocomplete="email" placeholder="nama@email.com" required>
+                </label>
+                <label>Kata sandi
+                    <span class="pw-wrap">
+                        <input type="password" id="daftarSandi" autocomplete="new-password" required>
+                        <button type="button" class="pw-toggle" data-toggle-pw="daftarSandi" aria-label="Tampilkan kata sandi">Lihat</button>
+                    </span>
+                    <span class="strength" data-strength-for="daftarSandi"><i></i><i></i><i></i><i></i></span>
+                    <small class="muted strength-text" data-strength-text="daftarSandi">Minimal 8 karakter, berisi huruf dan angka.</small>
+                </label>
+                <label>Ulangi kata sandi
+                    <input type="password" id="daftarSandi2" autocomplete="new-password" required>
+                </label>
+
+                <button type="submit" class="btn btn-primary btn-block" id="btnDaftar">Daftar</button>
+
+                <p class="auth-switch">Sudah punya akun? <a href="#" class="link" data-auth-view="masuk">Masuk</a></p>
+            </form>
+
+            <!-- Lupa kata sandi -->
+            <form class="auth-view hidden" data-view="lupa" id="formLupa" novalidate>
+                <h2>Lupa kata sandi</h2>
+                <p class="muted">Masukkan email akun Anda. Kami akan mengirim tautan untuk membuat kata sandi baru.</p>
+
+                <label>Email
+                    <input type="email" id="lupaEmail" autocomplete="email" required>
+                </label>
+
+                <button type="submit" class="btn btn-primary btn-block" id="btnLupa">Kirim tautan reset</button>
+
+                <p class="auth-switch"><a href="#" class="link" data-auth-view="masuk">Kembali ke halaman masuk</a></p>
+            </form>
+
+            <!-- Kata sandi baru (dari tautan reset) -->
+            <form class="auth-view hidden" data-view="sandi-baru" id="formSandiBaru" novalidate>
+                <h2>Buat kata sandi baru</h2>
+                <p class="muted">Kata sandi baru akan langsung berlaku untuk akun Anda.</p>
+
+                <label>Kata sandi baru
+                    <span class="pw-wrap">
+                        <input type="password" id="baruSandi" autocomplete="new-password" required>
+                        <button type="button" class="pw-toggle" data-toggle-pw="baruSandi" aria-label="Tampilkan kata sandi">Lihat</button>
+                    </span>
+                    <span class="strength" data-strength-for="baruSandi"><i></i><i></i><i></i><i></i></span>
+                    <small class="muted strength-text" data-strength-text="baruSandi">Minimal 8 karakter, berisi huruf dan angka.</small>
+                </label>
+                <label>Ulangi kata sandi baru
+                    <input type="password" id="baruSandi2" autocomplete="new-password" required>
+                </label>
+
+                <button type="submit" class="btn btn-primary btn-block" id="btnSandiBaru">Simpan kata sandi</button>
+            </form>
+
+            <!-- Menunggu persetujuan / nonaktif -->
+            <div class="auth-view hidden" data-view="menunggu">
+                <div class="auth-icon">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+                <h2 id="menungguJudul">Akun menunggu persetujuan</h2>
+                <p class="muted" id="menungguTeks"></p>
+                <button type="button" class="btn btn-primary btn-block" id="btnCekLagi">Periksa lagi</button>
+                <button type="button" class="btn btn-light btn-block" id="btnKeluarMenunggu">Keluar</button>
+            </div>
+
+            <p class="auth-foot muted small" id="authFoot">Sesi otomatis berakhir setelah 30 menit tidak aktif.</p>
+        </div>
+    </section>
+</div>
+
+<div class="layout hidden" id="appLayout">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <div class="brand-logo">DT</div>
+            <div>
+                <div class="brand-name" id="namaUsaha">Katering</div>
+                <div class="brand-sub">SIA Pendapatan</div>
+            </div>
+        </div>
+
+        <nav class="menu">
+            <a href="#dashboard"  data-page="dashboard">Dashboard</a>
+            <a href="#monitoring" data-page="monitoring">Monitoring Pengiriman</a>
+            <a href="#pesanan"    data-page="pesanan">Pesanan</a>
+            <a href="#pelanggan"  data-page="pelanggan">Pelanggan</a>
+            <a href="#paket"      data-page="paket">Paket Katering</a>
+            <a href="#laporan"    data-page="laporan">Laporan Pendapatan</a>
+            <a href="#pengguna"   data-page="pengguna">Pengguna &amp; Akses</a>
+        </nav>
+
+        <div class="sidebar-foot">
+            <div class="user-menu hidden" id="userMenu">
+                <button type="button" id="btnProfil">Profil &amp; kata sandi</button>
+                <button type="button" id="btnKeluar" class="danger">Keluar</button>
+            </div>
+            <button type="button" class="user-chip" id="userChip" aria-haspopup="true" aria-expanded="false">
+                <span class="avatar" id="userAvatar">?</span>
+                <span class="user-text">
+                    <span class="user-name" id="userNama">-</span>
+                    <span class="user-role" id="userPeran">-</span>
+                </span>
+                <span class="chev">&#8942;</span>
+            </button>
+            <div class="conn">
+                <span class="dot" id="dotKoneksi"></span>
+                <span id="teksKoneksi">Memeriksa koneksi...</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ============ KONTEN ============ -->
+    <main class="main">
+
+        <header class="topbar">
+            <button class="btn-icon" id="btnMenu" aria-label="Buka menu">&#9776;</button>
+            <div>
+                <h1 id="judulHalaman">Dashboard</h1>
+                <p class="muted" id="tanggalHariIni"></p>
+            </div>
+            <button class="btn btn-light" id="btnMuatUlang">Muat ulang data</button>
+        </header>
+
+
+        <!-- ================= DASHBOARD ================= -->
+        <section class="page" id="page-dashboard">
+
+            <div class="hero">
+                <div class="hero-text">
+                    <span class="hero-kicker" id="heroSapaan">Selamat datang</span>
+                    <h2 id="heroJudul">Katering</h2>
+                    <p id="heroRingkasan">Memuat ringkasan hari ini...</p>
+                    <div class="hero-actions">
+                        <a href="#pesanan" class="btn btn-accent" id="heroCatat">Catat pesanan</a>
+                        <a href="#monitoring" class="btn btn-ghost">Buka monitoring</a>
+                    </div>
+                </div>
+                <img src="assets/ilustrasi-katering.svg" alt="Ilustrasi tumpeng dan nasi kotak Katering Dapur Tembalang" class="hero-img">
+            </div>
+
+            <div class="cards">
+                <div class="card stat">
+                    <span class="stat-label">Pesanan dikirim hari ini</span>
+                    <span class="stat-value" id="kpiPesananHariIni">0</span>
+                    <span class="stat-note" id="kpiPorsiHariIni">0 porsi</span>
+                </div>
+                <div class="card stat">
+                    <span class="stat-label">Sedang diantar</span>
+                    <span class="stat-value" id="kpiDiantar">0</span>
+                    <span class="stat-note" id="kpiTerkirimHariIni">0 sudah terkirim hari ini</span>
+                </div>
+                <div class="card stat">
+                    <span class="stat-label">Pendapatan diakui bulan ini</span>
+                    <span class="stat-value" id="kpiPendapatanBulan">Rp 0</span>
+                    <span class="stat-note">dari pesanan yang sudah terkirim</span>
+                </div>
+                <div class="card stat">
+                    <span class="stat-label">Piutang usaha</span>
+                    <span class="stat-value warn" id="kpiPiutang">Rp 0</span>
+                    <span class="stat-note" id="kpiPiutangNote">0 pesanan belum lunas</span>
+                </div>
+            </div>
+
+            <div class="grid-chart">
+                <div class="card">
+                    <div class="card-head">
+                        <div>
+                            <h2>Tren pendapatan diakui</h2>
+                            <p class="muted small" id="grafikKeterangan"></p>
+                        </div>
+                        <div class="seg" id="segRentang" role="group" aria-label="Rentang waktu">
+                            <button type="button" data-rentang="7">7 hari</button>
+                            <button type="button" data-rentang="14">14 hari</button>
+                            <button type="button" data-rentang="30" class="active">30 hari</button>
+                        </div>
+                    </div>
+                    <div class="line-chart" id="grafikPendapatan"></div>
+                </div>
+
+                <div class="card analisis-card">
+                    <div class="card-head">
+                        <h2>Analisis otomatis</h2>
+                        <span class="badge b-baru" id="analisisPeriode"></span>
+                    </div>
+                    <div class="analisis" id="analisisDashboard"></div>
+                </div>
+            </div>
+
+            <div class="grid-status">
+                <div class="card">
+                    <div class="card-head">
+                        <h2>Status pengiriman hari ini</h2>
+                        <a href="#monitoring" class="link">Buka monitoring</a>
+                    </div>
+                    <div id="ringkasStatusHariIni" class="status-list"></div>
+                </div>
+
+            <div class="card">
+                <div class="card-head">
+                    <h2>Jadwal pengiriman terdekat</h2>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Kode</th><th>Tanggal &amp; jam kirim</th><th>Pelanggan</th>
+                                <th>Paket</th><th class="num">Porsi</th><th>Pembayaran</th><th>Pengiriman</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelJadwalTerdekat"></tbody>
+                    </table>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <!-- ================= MONITORING ================= -->
+        <section class="page hidden" id="page-monitoring">
+            <div class="card toolbar">
+                <label>Tanggal kirim
+                    <input type="date" id="monTanggal">
+                </label>
+                <button class="btn btn-light" id="monHariIni">Hari ini</button>
+                <label class="check hidden" id="monTugasSayaWrap">
+                    <input type="checkbox" id="monTugasSaya"> Hanya tugas saya
+                </label>
+                <span class="muted small" id="monInfo"></span>
+            </div>
+
+            <div class="board" id="boardMonitoring"></div>
+        </section>
+
+        <!-- ================= PESANAN ================= -->
+        <section class="page hidden" id="page-pesanan">
+
+            <div class="card">
+                <div class="card-head"><h2>Catat pesanan baru</h2></div>
+                <form id="formPesanan" class="form-grid">
+                    <label>Pelanggan
+                        <select id="psPelanggan" required></select>
+                    </label>
+                    <label>Paket katering
+                        <select id="psPaket" required></select>
+                    </label>
+                    <label>Jumlah porsi
+                        <input type="number" id="psPorsi" min="1" required>
+                        <small class="muted" id="psInfoPaket"></small>
+                    </label>
+                    <label>Tanggal kirim
+                        <input type="date" id="psTanggalKirim" required>
+                    </label>
+                    <label>Jam kirim
+                        <input type="time" id="psJamKirim" required value="11:00">
+                    </label>
+                    <label>Ongkos kirim (Rp)
+                        <input type="number" id="psOngkir" min="0" value="0">
+                    </label>
+                    <label>Diskon (Rp)
+                        <input type="number" id="psDiskon" min="0" value="0">
+                    </label>
+                    <label>Uang muka / dibayar (Rp)
+                        <input type="number" id="psDibayar" min="0" value="0">
+                    </label>
+                    <label>Metode pembayaran
+                        <select id="psMetode">
+                            <option value="">Belum ada pembayaran</option>
+                            <option>Tunai</option>
+                            <option>Transfer</option>
+                            <option>QRIS</option>
+                        </select>
+                    </label>
+                    <label class="span-2">Catatan
+                        <input type="text" id="psCatatan" placeholder="Contoh: acara arisan, menu tanpa pedas">
+                    </label>
+                    <div class="total-box span-3" id="psRingkasan"></div>
+                    <div class="form-actions span-3">
+                        <button type="submit" class="btn btn-primary">Simpan pesanan</button>
+                        <button type="reset" class="btn btn-light">Kosongkan</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-head">
+                    <h2>Daftar pesanan</h2>
+                </div>
+                <div class="filters">
+                    <input type="search" id="fPesananCari" placeholder="Cari kode, pelanggan, atau paket">
+                    <label>Dari <input type="date" id="fPesananDari"></label>
+                    <label>Sampai <input type="date" id="fPesananSampai"></label>
+                    <select id="fPesananBayar">
+                        <option value="">Semua pembayaran</option>
+                        <option>Belum Bayar</option><option>DP</option><option>Lunas</option>
+                    </select>
+                    <select id="fPesananStatus">
+                        <option value="">Semua status</option>
+                        <option>Baru</option><option>Diproses</option>
+                        <option>Selesai</option><option>Dibatalkan</option>
+                    </select>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Kode</th><th>Tgl pesan</th><th>Tgl kirim</th><th>Pelanggan</th>
+                                <th>Paket</th><th class="num">Porsi</th><th class="num">Total</th>
+                                <th class="num">Dibayar</th><th>Pembayaran</th><th>Status</th><th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelPesanan"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PELANGGAN ================= -->
+        <section class="page hidden" id="page-pelanggan">
+            <div class="card">
+                <div class="card-head"><h2 id="judulFormPelanggan">Tambah pelanggan</h2></div>
+                <form id="formPelanggan" class="form-grid">
+                    <input type="hidden" id="plId">
+                    <label>Nama pelanggan
+                        <input type="text" id="plNama" required maxlength="100">
+                    </label>
+                    <label>No. HP / WhatsApp
+                        <input type="tel" id="plHp" required maxlength="20" placeholder="08xxxxxxxxxx">
+                    </label>
+                    <label>Jenis pelanggan
+                        <select id="plJenis">
+                            <option>Perorangan</option>
+                            <option>Instansi</option>
+                        </select>
+                    </label>
+                    <label class="span-2">Alamat pengiriman
+                        <input type="text" id="plAlamat" required>
+                    </label>
+                    <label>Patokan alamat
+                        <input type="text" id="plPatokan" placeholder="Contoh: rumah pagar hijau">
+                    </label>
+                    <div class="form-actions span-3">
+                        <button type="submit" class="btn btn-primary" id="btnSimpanPelanggan">Simpan pelanggan</button>
+                        <button type="button" class="btn btn-light" id="btnBatalPelanggan">Batal</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-head">
+                    <h2>Daftar pelanggan</h2>
+                    <input type="search" id="fPelangganCari" placeholder="Cari nama atau alamat">
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nama</th><th>Jenis</th><th>No. HP</th><th>Alamat</th>
+                                <th class="num">Jumlah pesanan</th><th class="num">Sisa tagihan</th><th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelPelanggan"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAKET ================= -->
+        <section class="page hidden" id="page-paket">
+            <div class="card" id="kartuFormPaket">
+                <div class="card-head"><h2 id="judulFormPaket">Tambah paket katering</h2></div>
+                <form id="formPaket" class="form-grid">
+                    <input type="hidden" id="pkId">
+                    <label>Nama paket
+                        <input type="text" id="pkNama" required maxlength="100">
+                    </label>
+                    <label>Kategori
+                        <select id="pkKategori">
+                            <option>Nasi Kotak</option>
+                            <option>Prasmanan</option>
+                            <option>Tumpeng</option>
+                            <option>Katering Harian</option>
+                            <option>Snack Box</option>
+                        </select>
+                    </label>
+                    <label>Harga per porsi (Rp)
+                        <input type="number" id="pkHarga" min="1" required>
+                    </label>
+                    <label>Minimal porsi
+                        <input type="number" id="pkMinimal" min="1" value="1" required>
+                    </label>
+                    <label class="span-2">Isi paket / deskripsi
+                        <input type="text" id="pkDeskripsi">
+                    </label>
+                    <label class="check">
+                        <input type="checkbox" id="pkAktif" checked> Paket aktif (dapat dipesan)
+                    </label>
+                    <div class="form-actions span-3">
+                        <button type="submit" class="btn btn-primary" id="btnSimpanPaket">Simpan paket</button>
+                        <button type="button" class="btn btn-light" id="btnBatalPaket">Batal</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-head"><h2>Daftar paket</h2></div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nama paket</th><th>Kategori</th><th class="num">Harga/porsi</th>
+                                <th class="num">Min. porsi</th><th>Deskripsi</th><th>Status</th>
+                                <th class="num">Porsi terjual</th><th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelPaket"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= LAPORAN ================= -->
+        <section class="page hidden" id="page-laporan">
+            <div class="card toolbar no-print">
+                <label>Dari <input type="date" id="lapDari"></label>
+                <label>Sampai <input type="date" id="lapSampai"></label>
+                <button class="btn btn-primary" id="btnTampilkanLaporan">Tampilkan</button>
+                <button class="btn btn-light" id="btnCetakLaporan">Cetak / simpan PDF</button>
+            </div>
+
+            <div id="areaLaporan">
+                <div class="report-head">
+                    <h2 id="lapJudulUsaha">Laporan Pendapatan</h2>
+                    <p class="muted" id="lapPeriode"></p>
+                </div>
+
+                <div class="cards">
+                    <div class="card stat">
+                        <span class="stat-label">Pendapatan diakui</span>
+                        <span class="stat-value" id="lapPendapatan">Rp 0</span>
+                        <span class="stat-note">pesanan terkirim dalam periode</span>
+                    </div>
+                    <div class="card stat">
+                        <span class="stat-label">Kas diterima dari pesanan tsb.</span>
+                        <span class="stat-value" id="lapKas">Rp 0</span>
+                        <span class="stat-note">pembayaran atas pendapatan diakui</span>
+                    </div>
+                    <div class="card stat">
+                        <span class="stat-label">Piutang usaha</span>
+                        <span class="stat-value warn" id="lapPiutang">Rp 0</span>
+                        <span class="stat-note">sudah terkirim, belum lunas</span>
+                    </div>
+                    <div class="card stat">
+                        <span class="stat-label">Pendapatan diterima di muka</span>
+                        <span class="stat-value" id="lapDiMuka">Rp 0</span>
+                        <span class="stat-note">uang muka pesanan yang belum dikirim</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-head">
+                        <div>
+                            <h2>Grafik pendapatan harian</h2>
+                            <p class="muted small" id="lapGrafikKeterangan"></p>
+                        </div>
+                    </div>
+                    <div class="line-chart" id="lapGrafik"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-head"><h2>Analisis otomatis periode laporan</h2></div>
+                    <div class="analisis" id="analisisLaporan"></div>
+                    <p class="muted small analisis-catatan">Analisis disusun otomatis oleh sistem berdasarkan data pesanan, pengiriman, dan pembayaran yang tercatat. Gunakan sebagai bahan pertimbangan, bukan pengganti penilaian pemilik.</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-head"><h2>Ikhtisar pengakuan pendapatan</h2></div>
+                    <p class="muted small">
+                        Pendapatan diakui ketika katering sudah diserahkan kepada pelanggan
+                        (status pengiriman <b>Terkirim</b>). Uang muka atas pesanan yang belum
+                        dikirim dicatat sebagai liabilitas <i>pendapatan diterima di muka</i>,
+                        sedangkan sisa tagihan atas pesanan yang sudah terkirim dicatat sebagai
+                        <i>piutang usaha</i>.
+                    </p>
+                    <div class="table-wrap">
+                        <table class="jurnal">
+                            <thead>
+                                <tr><th>Akun</th><th class="num">Debit</th><th class="num">Kredit</th></tr>
+                            </thead>
+                            <tbody id="tabelJurnal"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-head"><h2>Pendapatan per paket</h2></div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr><th>Paket</th><th class="num">Pesanan</th><th class="num">Porsi</th><th class="num">Pendapatan</th><th class="num">Porsi (%)</th></tr>
+                                </thead>
+                                <tbody id="tabelPerPaket"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-head"><h2>Daftar piutang usaha</h2></div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr><th>Kode</th><th>Pelanggan</th><th>Tgl kirim</th><th class="num">Umur (hari)</th><th class="num">Sisa</th></tr>
+                                </thead>
+                                <tbody id="tabelPiutang"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-head"><h2>Rincian pesanan terkirim</h2></div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Kode</th><th>Tgl kirim</th><th>Pelanggan</th><th>Paket</th>
+                                    <th class="num">Porsi</th><th class="num">Penjualan</th><th class="num">Ongkir</th>
+                                    <th class="num">Diskon</th><th class="num">Total</th><th class="num">Dibayar</th><th>Status bayar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelRincian"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PENGGUNA & AKSES ================= -->
+        <section class="page hidden" id="page-pengguna">
+
+            <div class="card">
+                <div class="card-head"><h2>Tambah pengguna</h2></div>
+                <form id="formPengguna" class="form-grid" autocomplete="off">
+                    <label>Nama lengkap
+                        <input type="text" id="pgNama" required maxlength="100">
+                    </label>
+                    <label>Email
+                        <input type="email" id="pgEmail" required autocomplete="off">
+                    </label>
+                    <label>Peran
+                        <select id="pgPeran">
+                            <option value="admin">Admin</option>
+                            <option value="kurir">Kurir</option>
+                            <option value="pemilik">Pemilik</option>
+                        </select>
+                    </label>
+                    <label>Kata sandi awal
+                        <span class="pw-wrap">
+                            <input type="password" id="pgSandi" required autocomplete="new-password">
+                            <button type="button" class="pw-toggle" data-toggle-pw="pgSandi" aria-label="Tampilkan kata sandi">Lihat</button>
+                        </span>
+                        <span class="strength" data-strength-for="pgSandi"><i></i><i></i><i></i><i></i></span>
+                    </label>
+                    <div class="span-2 muted small hint-box">
+                        Akun langsung aktif dengan peran yang dipilih. Sampaikan email dan kata sandi awal
+                        kepada pengguna, lalu minta mereka menggantinya melalui menu <b>Profil &amp; kata sandi</b>.
+                    </div>
+                    <div class="form-actions span-3">
+                        <button type="submit" class="btn btn-primary" id="btnTambahPengguna">Tambah pengguna</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-head">
+                    <h2>Daftar pengguna</h2>
+                    <span class="muted small" id="infoPengguna"></span>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pengguna</th><th>Peran</th><th>Status</th>
+                                <th>Login terakhir</th><th>Terdaftar</th><th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelPengguna"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-head"><h2>Hak akses per peran</h2></div>
+                <div class="table-wrap">
+                    <table class="matrix">
+                        <thead>
+                            <tr><th>Fitur</th><th>Pemilik</th><th>Admin</th><th>Kurir</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Dashboard</td><td>&#10003;</td><td>&#10003;</td><td>-</td></tr>
+                            <tr><td>Monitoring dan ubah status pengiriman</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td></tr>
+                            <tr><td>Catat pesanan dan pembayaran</td><td>&#10003;</td><td>&#10003;</td><td>-</td></tr>
+                            <tr><td>Kelola pelanggan</td><td>&#10003;</td><td>&#10003;</td><td>-</td></tr>
+                            <tr><td>Kelola paket dan harga</td><td>&#10003;</td><td>Lihat</td><td>-</td></tr>
+                            <tr><td>Hapus data</td><td>&#10003;</td><td>-</td><td>-</td></tr>
+                            <tr><td>Laporan pendapatan</td><td>&#10003;</td><td>-</td><td>-</td></tr>
+                            <tr><td>Pengguna dan akses</td><td>&#10003;</td><td>-</td><td>-</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="muted small">Pembatasan ini juga diterapkan di database melalui Row Level Security, sehingga tetap berlaku meskipun aplikasi diakses di luar tampilan web.</p>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- ============ MODAL ============ -->
+<div class="modal-backdrop hidden" id="modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalJudul">
+        <div class="modal-head">
+            <h3 id="modalJudul"></h3>
+            <button class="btn-icon" id="modalTutup" aria-label="Tutup">&times;</button>
+        </div>
+        <form id="modalForm">
+            <div id="modalIsi"></div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="modalSimpan">Simpan</button>
+                <button type="button" class="btn btn-light" id="modalBatal">Batal</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="toast-area" id="toastArea"></div>
+
+<script src="js/supabase.js"></script>
+<script src="js/analisis.js"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

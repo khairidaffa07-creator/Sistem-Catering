@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 340" role="img" aria-labelledby="judul">
+  <title id="judul">Ilustrasi hidangan katering: tumpeng, nasi kotak, dan kurir pengantar</title>
+
+  <!-- latar -->
+  <ellipse cx="270" cy="185" rx="245" ry="140" fill="#fbf0dc"/>
+  <circle cx="420" cy="70" r="38" fill="#f6dcb0"/>
+  <circle cx="92" cy="92" r="20" fill="#e3f1ea"/>
+  <circle cx="470" cy="250" r="14" fill="#e3f1ea"/>
+
+  <!-- uap -->
+  <g fill="none" stroke="#d9cdb6" stroke-width="5" stroke-linecap="round">
+    <path d="M196 62c-10-12 10-20 0-34"/>
+    <path d="M222 54c-10-12 10-20 0-34"/>
+    <path d="M384 132c-8-10 8-16 0-28"/>
+  </g>
+
+  <!-- bayangan meja -->
+  <ellipse cx="260" cy="292" rx="215" ry="16" fill="#e9dcc3"/>
+
+  <!-- ===== Tumpeng ===== -->
+  <ellipse cx="208" cy="276" rx="118" ry="20" fill="#8a5a2b"/>
+  <ellipse cx="208" cy="270" rx="118" ry="20" fill="#b57a3e"/>
+  <ellipse cx="208" cy="266" rx="104" ry="15" fill="#5f9e4a"/>
+  <!-- nasi kuning -->
+  <path d="M150 262 L208 88 L266 262 Z" fill="#f0b93a"/>
+  <path d="M208 88 L266 262 L238 262 Z" fill="#d99b22"/>
+  <path d="M168 210 q40 10 80 0" fill="none" stroke="#e0a52c" stroke-width="3"/>
+  <path d="M182 168 q26 8 52 0" fill="none" stroke="#e0a52c" stroke-width="3"/>
+  <!-- hiasan puncak -->
+  <path d="M208 70 q-4 10 0 22 q4-12 0-22z" fill="#c8402c"/>
+  <path d="M208 80 q-16-6-20 6 q12 2 20-6z" fill="#4c8a3a"/>
+  <path d="M208 80 q16-6 20 6 q-12 2-20-6z" fill="#5f9e4a"/>
+  <!-- lauk di sekeliling -->
+  <g>
+    <ellipse cx="122" cy="262" rx="17" ry="10" fill="#9b5a25"/>
+    <ellipse cx="119" cy="259" rx="10" ry="5" fill="#b87336"/>
+    <circle cx="296" cy="262" r="12" fill="#fff"/>
+    <circle cx="296" cy="262" r="6" fill="#f3b72e"/>
+    <circle cx="150" cy="276" r="9" fill="#fff"/>
+    <circle cx="150" cy="276" r="4.5" fill="#f3b72e"/>
+    <ellipse cx="264" cy="279" rx="14" ry="7" fill="#9b5a25"/>
+    <circle cx="186" cy="281" r="7" fill="#8cc06a"/>
+    <circle cx="186" cy="281" r="3.5" fill="#d9efc8"/>
+    <circle cx="232" cy="283" r="7" fill="#8cc06a"/>
+    <circle cx="232" cy="283" r="3.5" fill="#d9efc8"/>
+    <path d="M100 270 q8-6 16 0" fill="none" stroke="#c8402c" stroke-width="4" stroke-linecap="round"/>
+    <path d="M312 270 q8-6 16 0" fill="none" stroke="#c8402c" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- ===== Nasi kotak ===== -->
+  <g transform="translate(330 150)">
+    <!-- tutup terbuka -->
+    <path d="M6 44 L26 0 L142 0 L128 44 Z" fill="#d8a066"/>
+    <path d="M26 0 L142 0 L138 10 L22 10 Z" fill="#e7b47c"/>
+    <text x="78" y="30" text-anchor="middle" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="12" font-weight="700" fill="#8a5413">DAPUR</text>
+    <!-- badan kotak -->
+    <path d="M0 44 H136 L128 120 H8 Z" fill="#c98a4b"/>
+    <path d="M0 44 H136 L134 54 H2 Z" fill="#b57a3e"/>
+    <!-- isi -->
+    <rect x="10" y="52" width="116" height="22" rx="4" fill="#f7f2e8"/>
+    <ellipse cx="38" cy="58" rx="24" ry="13" fill="#ffffff"/>
+    <ellipse cx="38" cy="55" rx="18" ry="8" fill="#fbfaf6"/>
+    <path d="M70 62 q12-22 30-10 q10 8-2 16 q-14 8-28-6z" fill="#a65e26"/>
+    <path d="M96 56 l14-8 q4-2 5 2 q1 4-4 5 l-13 4z" fill="#f2e6d4"/>
+    <circle cx="112" cy="64" r="7" fill="#c8402c"/>
+    <path d="M58 70 q6-10 14-2" fill="none" stroke="#4c8a3a" stroke-width="5" stroke-linecap="round"/>
+    <path d="M16 70 q6-8 12-2" fill="none" stroke="#5f9e4a" stroke-width="5" stroke-linecap="round"/>
+    <!-- pita label -->
+    <rect x="30" y="86" width="76" height="16" rx="8" fill="#1f6f50"/>
+    <text x="68" y="98" text-anchor="middle" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="9" font-weight="700" fill="#ffffff">TEMBALANG</text>
+  </g>
+
+  <!-- ===== Penanda lokasi & jalur antar ===== -->
+  <path d="M60 200 q40-70 110-90" fill="none" stroke="#1f6f50" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>
+  <g transform="translate(40 168)">
+    <path d="M20 0 a20 20 0 0 1 20 20 c0 15-20 36-20 36 s-20-21-20-36 a20 20 0 0 1 20-20z" fill="#1f6f50"/>
+    <circle cx="20" cy="20" r="8" fill="#ffffff"/>
+  </g>
+
+  <!-- daun -->
+  <g fill="#5f9e4a">
+    <path d="M470 300 q-30-10-34-40 q30 8 34 40z"/>
+    <path d="M470 300 q8-30 34-36 q-6 30-34 36z" fill="#4c8a3a"/>
+    <path d="M58 302 q-24-6-28-30 q24 6 28 30z" fill="#4c8a3a"/>
+  </g>
+</svg>
