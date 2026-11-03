@@ -10,9 +10,7 @@ Aplikasi web Sistem Informasi Akuntansi (SIA) untuk mencatat pesanan, pilihan pa
 
 | Peran | Email | Kata sandi |
 |---|---|---|
-| Pemilik | `pemilik@katering.com` | *(isi setelah akun dibuat)* |
-| Admin | `admin@katering.com` | *(isi setelah akun dibuat)* |
-| Kurir | `kurir@katering.com` | *(isi setelah akun dibuat)* |
+| Pemilik | `khairidaffa07@gmail.com` | panyawangan001 |
 
 Cara membuat akun-akun ini dijelaskan pada bagian [Instalasi dan Konfigurasi](#9-instalasi-dan-konfigurasi).
 
