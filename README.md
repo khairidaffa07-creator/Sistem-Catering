@@ -4,7 +4,7 @@
 
 Aplikasi web Sistem Informasi Akuntansi (SIA) untuk mencatat pesanan, pilihan paket, pengiriman ke alamat pelanggan, pembayaran, dan pengakuan pendapatan pada usaha katering. Aplikasi dibangun dengan HTML, CSS, dan JavaScript di sisi frontend, backend `app.js` (Node.js), serta basis data PostgreSQL melalui Supabase.
 
-**Web demo:** `https://USERNAME.github.io/NAMA-REPO/` *(ganti setelah GitHub Pages aktif)*
+**Web demo:** https://khairidaffa07-creator.github.io/Sistem-Catering/
 
 ## Akun demo
 
