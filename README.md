@@ -10,7 +10,7 @@ Aplikasi web Sistem Informasi Akuntansi (SIA) untuk mencatat pesanan, pilihan pa
 
 | Peran | Email | Kata sandi |
 |---|---|---|
-| Pemilik | `khairidaffa07@gmail.com` | panyawangan001 |
+| Pemilik | `khairidaffa07@gmail.com` | pengkodean123 |
 
 Cara membuat akun-akun ini dijelaskan pada bagian [Instalasi dan Konfigurasi](#9-instalasi-dan-konfigurasi).
 
